@@ -64,8 +64,6 @@ var appServer = function(req, res) {
 
         //construct the data object to send to the handler
         chosenHandler(data, function(statusCode, payload) {
-            console.log(`statusCode ${statusCode}`);
-            console.log(`payload ${payload}`);
             //convert the payload to a string
             let payloadString = JSON.stringify(payload);
 
