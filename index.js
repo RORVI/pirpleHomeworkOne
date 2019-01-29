@@ -51,7 +51,7 @@ var appServer = function(req, res) {
         payload += decoder.end();
 
         //choose the handler for the endpoint. If the route is non existent, fallback to the notFound handler
-        let chosenHandler = typeof(router[cleanPath]) !== 'undefined' ? router[cleanPath] : handlers.notFound;
+        var chosenHandler = typeof(router[cleanPath]) !== 'undefined' ? router[cleanPath] : handlers.notFound;
 
         //construct the data object to send to the handler
         var data = {
@@ -60,10 +60,12 @@ var appServer = function(req, res) {
             'method': method,
             'headers': headers,
             'payload': payload
-        }
+        };
 
         //construct the data object to send to the handler
         chosenHandler(data, function(statusCode, payload) {
+            console.log(`statusCode ${statusCode}`);
+            console.log(`payload ${payload}`);
             //convert the payload to a string
             let payloadString = JSON.stringify(payload);
 
@@ -84,8 +86,8 @@ handlers.greeting = function(data, callback) {
 }
 
 //default handler
-handlers.default = function(data, callback) {
-    callback(404, '');
+handlers.notFound = function(data, callback) {
+    callback(404, `I'm still going to greet you...strange visitor! :-)`);
 }
 
 //the router is used for handling more requests
